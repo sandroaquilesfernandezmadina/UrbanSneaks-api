@@ -35,7 +35,6 @@ public class CategoriaServiceImpl implements CategoriaService {
                .orElseThrow(()-> new RuntimeException("categoria no encontrada")
                );
        return categoriaMapper.toSalidaDto(categoria);
-
     }
 
     @Override

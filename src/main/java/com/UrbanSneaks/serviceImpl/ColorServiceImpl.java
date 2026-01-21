@@ -1,5 +1,10 @@
 package com.UrbanSneaks.serviceImpl;
 
+import com.UrbanSneaks.dtos.color.ColorEntradaDTO;
+import com.UrbanSneaks.dtos.color.ColorSalidaDTO;
+import com.UrbanSneaks.mapper.CategoriaMapper;
+import com.UrbanSneaks.mapper.ColorMapper;
+import com.UrbanSneaks.model.Categoria;
 import com.UrbanSneaks.model.Color;
 import com.UrbanSneaks.repository.ColorRepository;
 import com.UrbanSneaks.service.ColorService;
@@ -15,29 +20,41 @@ public class ColorServiceImpl implements ColorService {
     @Autowired
     private ColorRepository colorRepository;
 
+    @Autowired
+    private ColorMapper colorMapper;
+
     @Override
-    public List<Color> findAll() {
-        return colorRepository.findAll();
+    public List<ColorSalidaDTO> findAll() {
+        return colorRepository.findAll()
+                .stream()
+                .map(colorMapper::toSalidaDto)
+                .toList();
     }
 
     @Override
-    public Optional<Color> finDAllById(Integer id) {
-        return colorRepository.findById(id);
+    public ColorSalidaDTO finDAllById(Integer id) {
+        Color color = colorRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("color no encontrado"));
+        return  colorMapper.toSalidaDto(color);
     }
 
     @Override
-    public Color saveColor(Color color) {
-        return colorRepository.save(color);
+    public ColorSalidaDTO SaveColor(ColorEntradaDTO ColorDto) {
+        Color color = colorMapper.toEntity(ColorDto);
+        return colorMapper.toSalidaDto(
+                colorRepository.save(color)
+        );
     }
 
     @Override
-    public Color UpdateColor(Integer id, Color color) {
-        Color col = colorRepository.findById(id)
+    public ColorSalidaDTO UpdateColor(Integer id, ColorEntradaDTO colorDto) {
+        Color color = colorRepository.findById(id)
            .orElseThrow(()-> new RuntimeException("categoria no encontrada con el: " + id));
 
-        col.setNomColor(color.getNomColor());
-        col.setEstadoColor(color.getEstadoColor());
-        return colorRepository.save(col);
+            color.setNomColor(colorDto.nombre());
+        return colorMapper.toSalidaDto(
+                colorRepository.save(color)
+        );
     }
 
     @Override
