@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/color")
 public class ColorController {
 
+    @Autowired
     private ColorService colorService;
 
-    @Autowired
+    @GetMapping
     public List<ColorSalidaDTO> findAllColor(){
         return colorService.findAll();
     }
