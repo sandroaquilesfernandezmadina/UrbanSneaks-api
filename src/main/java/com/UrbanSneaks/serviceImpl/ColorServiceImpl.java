@@ -6,6 +6,7 @@ import com.UrbanSneaks.mapper.CategoriaMapper;
 import com.UrbanSneaks.mapper.ColorMapper;
 import com.UrbanSneaks.model.Categoria;
 import com.UrbanSneaks.model.Color;
+import com.UrbanSneaks.repository.CategoriaRepository;
 import com.UrbanSneaks.repository.ColorRepository;
 import com.UrbanSneaks.service.ColorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,12 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public ColorSalidaDTO SaveColor(ColorEntradaDTO ColorDto) {
+
+        if(colorRepository.existsByNomColorIgnoreCase(ColorDto.nombre())){
+            throw new RuntimeException("El color ya existe");
+        }
+
+
         Color color = colorMapper.toEntity(ColorDto);
         return colorMapper.toSalidaDto(
                 colorRepository.save(color)

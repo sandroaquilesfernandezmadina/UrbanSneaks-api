@@ -16,7 +16,7 @@ import org.hibernate.annotations.*;
         name = "color"
 )
 @SQLDelete(
-        sql = "UPDATE categoria SET estado = false WHERE id_color = ?"
+        sql = "UPDATE color SET estado = false WHERE id_color = ?"
 )
 @SQLRestriction("estado = true")
 
@@ -26,7 +26,7 @@ public class Color {
     @Column(name = "id_color")
     private Integer idColor;
     @Column(name = "nombre")
-    private String NomColor;
+    private String nomColor;
     @Column(name = "estado")
     private Boolean estadoColor;
 

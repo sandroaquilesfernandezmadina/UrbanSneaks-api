@@ -29,6 +29,10 @@
 - no eliminar si tiene productos activos (pendiente)
 - no desactivar si hay ventas historicas (pendiente)
 
+## Reglas de negocio para la clase color
+- no se aseptan duplicados de color (aplicado)
+
+
 
 
 
