@@ -23,7 +23,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public List<CategoriaSalidaDTO> FindAllCategoria() {
-        return categoriaRepository.findAll()
+        return categoriaRepository.findByEstadoCategiriaTrue()
                 .stream()
                 .map(categoriaMapper::toSalidaDto)
                 .toList();
@@ -39,7 +39,13 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public CategoriaSalidaDTO SaveCategoria(CategoriaEntradaDTO categoriaDto) {
+
+        if(categoriaRepository.existsByNomCategoriaIgnoreCase(categoriaDto.nombre())){
+            throw new RuntimeException("La categoria ya existe");
+        }
+
         Categoria categoria = categoriaMapper.toEntity(categoriaDto);
+        categoria.setEstadoCategiria(true);
         return categoriaMapper.toSalidaDto(
                 categoriaRepository.save(categoria)
         );
@@ -58,6 +64,9 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public void deleteCategoria(Integer id) {
-    categoriaRepository.deleteById(id);
+        Categoria categoria = categoriaRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+        categoria.setEstadoCategiria(false);
+    categoriaRepository.save(categoria);
     }
 }

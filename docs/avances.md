@@ -21,4 +21,14 @@
 - Creacion de Color Servicios
 - Creacion de Color Controller
 
+## Reglas de negocio de la clase categoria:
+- no se aseptan duplicados de categoria (aplicado)
+- borrado logico para las categorias (aplicado)
+- 
+- no actualizar una categoria si tiene productos asociados (pendiente)
+- no eliminar si tiene productos activos (pendiente)
+- no desactivar si hay ventas historicas (pendiente)
+
+
+
 
