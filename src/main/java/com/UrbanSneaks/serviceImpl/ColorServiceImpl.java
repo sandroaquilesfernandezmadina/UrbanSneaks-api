@@ -26,7 +26,7 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public List<ColorSalidaDTO> findAll() {
-        return colorRepository.findAll()
+        return colorRepository.findByEstadoColorTrue()
                 .stream()
                 .map(colorMapper::toSalidaDto)
                 .toList();
@@ -56,7 +56,16 @@ public class ColorServiceImpl implements ColorService {
     @Override
     public ColorSalidaDTO UpdateColor(Integer id, ColorEntradaDTO colorDto) {
         Color color = colorRepository.findById(id)
-           .orElseThrow(()-> new RuntimeException("categoria no encontrada con el: " + id));
+           .orElseThrow(()-> new RuntimeException("color no encontrada con el: " + id));
+
+        if(!color.getEstadoColor()){
+            throw  new RuntimeException("el color esta eliminado");
+
+        }
+
+        if(colorRepository.existsByNomColorIgnoreCaseAndIdColorNot(colorDto.nombre(), id)){
+            throw new RuntimeException("ya existe un color con este nombre");
+        }
 
             color.setNomColor(colorDto.nombre());
         return colorMapper.toSalidaDto(

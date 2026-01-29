@@ -33,7 +33,7 @@ public class ColorController {
         return colorService.SaveColor(colorDto);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ColorSalidaDTO UpdateColor(@PathVariable Integer id, @RequestBody ColorEntradaDTO colorDto){
         return colorService.UpdateColor(id, colorDto);
     }

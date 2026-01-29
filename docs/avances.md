@@ -31,6 +31,8 @@
 
 ## Reglas de negocio para la clase color
 - no se aseptan duplicados de color (aplicado)
+- no eliminar un color si esta en uso (pendiente)
+- no se puede modificar un color si esta en uso (pendiente)
 
 
 
